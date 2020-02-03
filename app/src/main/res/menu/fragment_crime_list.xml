@@ -9,6 +9,7 @@
         app:showAsAction="ifRoom|withText" />
     <item
         android:id="@+id/show_subtitle"
+        android:icon="@drawable/ic_menu_reveal"
         android:title="@string/show_subtitle"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom|withText" />
 </menu>

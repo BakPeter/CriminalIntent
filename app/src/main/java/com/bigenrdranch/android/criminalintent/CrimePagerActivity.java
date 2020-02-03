@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class CrimePagerActivity extends AppCompatActivity {
+    public static final String TAG = CrimePagerActivity.class.getName();
+
     private static final String EXTRA_CRIME_ID =
             SingleFragmentActivity.getCurrPackageName() + ".crimeId";
 
