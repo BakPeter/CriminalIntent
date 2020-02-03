@@ -10,11 +10,15 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import java.util.List;
 import java.util.UUID;
 
-public class CrimePagerActivity extends AppCompatActivity {
+public class CrimePagerActivity extends AppCompatActivity
+        implements RTLInterface {
+    public static final String TAG = CrimePagerActivity.class.getName();
+
     private static final String EXTRA_CRIME_ID =
             SingleFragmentActivity.getCurrPackageName() + ".crimeId";
 
@@ -32,6 +36,8 @@ public class CrimePagerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crime_pager);
+
+        setRTL();
 
         UUID crimeId = (UUID) getIntent().getSerializableExtra(EXTRA_CRIME_ID);
 
@@ -60,5 +66,10 @@ public class CrimePagerActivity extends AppCompatActivity {
                 break;
             }
         }
+    }
+
+    @Override
+    public void setRTL() {
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
     }
 }

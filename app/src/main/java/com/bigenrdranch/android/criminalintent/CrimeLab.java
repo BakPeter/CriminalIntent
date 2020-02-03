@@ -38,6 +38,12 @@ public class CrimeLab {
         mDatabase.insert(CrimeTable.NAME, null, values);
     }
 
+    public void deleteCrime(Crime crime) {
+        mDatabase.delete(CrimeTable.NAME,
+                CrimeTable.Cols.UUDI + " = ?",
+                new String[]{crime.getId().toString()});
+    }
+
     public List<Crime> getCrimes() {
         List<Crime> crimes = new ArrayList<>();
 
@@ -106,9 +112,8 @@ public class CrimeLab {
         values.put(CrimeTable.Cols.TITLE, crime.getTitle());
         values.put(CrimeTable.Cols.DATE, crime.getDate().toString());
         values.put(CrimeTable.Cols.SOLVED, crime.isSolved() ? 1 : 0);
+        values.put(CrimeTable.Cols.SUSPECT, crime.getnSuspect());
 
         return values;
     }
-
-
 }

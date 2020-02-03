@@ -8,6 +8,7 @@ public class Crime {
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
+    private String nSuspect;
 
     public Crime() {
         this(UUID.randomUUID());
@@ -48,6 +49,14 @@ public class Crime {
 
     public void setSolved(boolean solved) {
         mSolved = solved;
+    }
+
+    public String getnSuspect() {
+        return nSuspect;
+    }
+
+    public void setnSuspect(String nSuspect) {
+        this.nSuspect = nSuspect;
     }
 
     @Override

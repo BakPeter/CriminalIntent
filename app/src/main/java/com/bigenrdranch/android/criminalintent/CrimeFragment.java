@@ -4,10 +4,19 @@ package com.bigenrdranch.android.criminalintent;
 import android.app.Activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -30,12 +39,15 @@ public class CrimeFragment extends Fragment {
     private static final String DIALOG_DATA = "DialogDate";
 
     private static final int REQUEST_DATE = 0;
+    private static final int REQEUST_CONTACT = 1;
 
     private Crime mCrime;
 
     private EditText mTitleField;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
+    private Button mSuspectButton;
+    private Button mReportButton;
 
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
@@ -55,7 +67,8 @@ public class CrimeFragment extends Fragment {
 
         UUID crimeId = (UUID) getArguments().getSerializable(ARGS_CRIME_ID);
         mCrime = CrimeLab.get(activity).getCrime(crimeId);
-        // Log.d(TAG, mCrime.toString());
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -110,6 +123,38 @@ public class CrimeFragment extends Fragment {
             }
         });
 
+        mReportButton = view.findViewById(R.id.crime_report);
+        mReportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_TEXT, getCrimeReport());
+                i.putExtra(Intent.EXTRA_SUBJECT, getString((R.string.crime_report_subject)));
+                i = Intent.createChooser(i, getString(R.string.send_report));
+
+                startActivity(i);
+            }
+        });
+
+        final Intent pickContact = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+        //pickContact.addCategory(Intent.CATEGORY_HOME);
+        mSuspectButton = view.findViewById(R.id.crime_suspect);
+        mSuspectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(pickContact, REQEUST_CONTACT);
+            }
+        });
+
+        if(mCrime.getnSuspect() != null)
+            mSuspectButton.setText(mCrime.getnSuspect());
+
+        PackageManager packageManager = getActivity().getPackageManager();
+        if(packageManager.resolveActivity(
+                pickContact, PackageManager.MATCH_DEFAULT_ONLY) == null)
+            mSuspectButton.setEnabled(false);
+
         return view;
     }
 
@@ -119,15 +164,74 @@ public class CrimeFragment extends Fragment {
             return;
         }
 
-        if(requestCode == REQUEST_DATE){
+        if (requestCode == REQUEST_DATE) {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
 
             mCrime.setDate(date);
             updateText();
+        } else if(requestCode == REQEUST_CONTACT) {
+            Uri contactUri = data.getData();
+            String[] queryFields = new String[] {
+                    ContactsContract.Contacts.DISPLAY_NAME
+            };
+
+            Cursor c = getActivity().getContentResolver()
+                    .query(contactUri, queryFields, null, null, null);
+            try {
+                if(c.getCount() == 0)
+                    return;
+
+                c.moveToFirst();
+                String suspect = c.getString(0);
+                mCrime.setnSuspect(suspect);
+                mSuspectButton.setText(suspect);
+            } finally {
+                c.close();
+            }
         }
     }
 
     private void updateText() {
         mDateButton.setText(mCrime.getDate().toString());
+    }
+
+    private String getCrimeReport() {
+        String solvedString;
+        if (mCrime.isSolved())
+            solvedString = getString(R.string.crime_report_solved);
+        else
+            solvedString = getString(R.string.crime_report_unsolved);
+
+        String dateFormat = "EEE, MMM dd";
+        String dateString = DateFormat.format(dateFormat, mCrime.getDate()).toString();
+
+        String suspect = mCrime.getnSuspect();
+        if (suspect == null)
+            suspect = getString(R.string.crime_report_no_suspect);
+        else
+            suspect = getString(R.string.crime_report_suspect, suspect);
+
+        String report = getString(R.string.crime_report,
+                mCrime.getTitle(), dateString, solvedString, suspect);
+
+        return report;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_crime, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.delete_crime) {
+            Log.d(TAG, "onOptionsItemSelected");
+            Log.d(TAG, "deleted : " + mCrime.toString());
+
+            CrimeLab.get(getActivity()).deleteCrime(mCrime);
+            getActivity().finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
