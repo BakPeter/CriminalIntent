@@ -10,7 +10,11 @@ public class Crime {
     private boolean mSolved;
 
     public Crime() {
-        setId(UUID.randomUUID());
+        this(UUID.randomUUID());
+    }
+
+    public Crime(UUID id) {
+        setId(id);
         setDate(new Date());
     }
 

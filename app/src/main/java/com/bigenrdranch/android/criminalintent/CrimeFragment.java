@@ -2,6 +2,7 @@ package com.bigenrdranch.android.criminalintent;
 
 
 import android.app.Activity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -55,6 +56,14 @@ public class CrimeFragment extends Fragment {
         UUID crimeId = (UUID) getArguments().getSerializable(ARGS_CRIME_ID);
         mCrime = CrimeLab.get(activity).getCrime(crimeId);
         // Log.d(TAG, mCrime.toString());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        CrimeLab.get(getActivity())
+                .updateCrime(mCrime);
     }
 
     @Nullable
