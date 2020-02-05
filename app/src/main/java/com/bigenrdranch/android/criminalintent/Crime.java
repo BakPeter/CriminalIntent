@@ -8,7 +8,7 @@ public class Crime {
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
-    private String nSuspect;
+    private String mSuspect;
 
     public Crime() {
         this(UUID.randomUUID());
@@ -51,12 +51,20 @@ public class Crime {
         mSolved = solved;
     }
 
-    public String getnSuspect() {
-        return nSuspect;
+    public String getSuspect() {
+        return mSuspect;
     }
 
-    public void setnSuspect(String nSuspect) {
-        this.nSuspect = nSuspect;
+    public void setSuspect(String suspect) {
+        this.mSuspect = suspect;
+    }
+
+    public String getPhotoFileName(){
+        StringBuilder stringBuilder = new StringBuilder("IMG_");
+        stringBuilder.append(getId().toString());
+        stringBuilder.append(".jpg");
+
+        return stringBuilder.toString();
     }
 
     @Override

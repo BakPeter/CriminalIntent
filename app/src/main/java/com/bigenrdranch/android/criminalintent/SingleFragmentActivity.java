@@ -12,24 +12,12 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
         implements RTLInterface {
     protected abstract Fragment createFragment();
 
-    private static String sPackageName;
-
-    static {
-        sPackageName = null;
-    }
-
-    public static String getCurrPackageName() {
-        return sPackageName;
-    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
         setRTL();
-
-        sPackageName = getPackageName();
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);

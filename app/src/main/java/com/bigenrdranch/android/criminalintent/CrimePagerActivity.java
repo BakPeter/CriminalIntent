@@ -20,7 +20,7 @@ public class CrimePagerActivity extends AppCompatActivity
     public static final String TAG = CrimePagerActivity.class.getName();
 
     private static final String EXTRA_CRIME_ID =
-            SingleFragmentActivity.getCurrPackageName() + ".crimeId";
+            "com.bigenrdranch.android.criminalintent.crimeId";
 
     private ViewPager mViewPager;
     private List<Crime> mCrimes;

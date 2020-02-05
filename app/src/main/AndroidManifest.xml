@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bigenrdranch.android.criminalintent">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <!--    <uses-permission-sdk-23 android:name="android.permission.CAMERA" />-->
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,6 +28,19 @@
             </intent-filter>
         </activity>
         <activity android:name=".CrimeActivity" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.bigenrdranch.android.criminalintent.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/files" />
+
+        </provider>
+
+
     </application>
 
 </manifest>

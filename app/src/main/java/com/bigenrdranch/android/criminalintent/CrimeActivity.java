@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class CrimeActivity extends SingleFragmentActivity {
     private static final String EXTRA_CRIME_ID =
-            SingleFragmentActivity.getCurrPackageName() + ".crime_id";
+            "com.bigenrdranch.android.criminalintent.crime_id";
 
     @Override
     protected Fragment createFragment() {
