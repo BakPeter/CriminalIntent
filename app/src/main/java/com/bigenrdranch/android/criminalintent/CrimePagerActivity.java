@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class CrimePagerActivity extends AppCompatActivity
-        implements RTLInterface {
+        implements RTLInterface, CrimeFragment.Callbacks {
     public static final String TAG = CrimePagerActivity.class.getName();
 
     private static final String EXTRA_CRIME_ID =
@@ -71,5 +71,9 @@ public class CrimePagerActivity extends AppCompatActivity
     @Override
     public void setRTL() {
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+    }
+
+    @Override
+    public void onCrimeUpdated(Crime crime) {
     }
 }

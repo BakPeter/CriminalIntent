@@ -3,6 +3,7 @@ package com.bigenrdranch.android.criminalintent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -12,10 +13,15 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
         implements RTLInterface {
     protected abstract Fragment createFragment();
 
+    @LayoutRes
+    protected int getLayoutResId(){
+        return R.layout.fragment_crime;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
+        setContentView(getLayoutResId());
 
         setRTL();
 
