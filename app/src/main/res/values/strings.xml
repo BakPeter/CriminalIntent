@@ -5,6 +5,9 @@
     <string name="crime_title_label">Title</string>
     <string name="crime_details_label">Details</string>
     <string name="crime_solved_label">Solved</string>
+    <string name="crime_photo_button_description">Take photo of crime</string>
+    <string name="crime_photo_no_image_description">Crime scene photo (not set)</string>
+    <string name="crime_photo_image_description">Crime scene photo</string>
     <string name="crime_title">Crime Title</string>
     <string name="crime_date">Crime Date</string>
     <string name="call_police_button_text">Call Police</string>
@@ -16,7 +19,7 @@
     <string name="crime_suspect_text">Choose Suspect</string>
     <string name="crime_report_text">Send Crime Report</string>
     <string name="delete_crime_menu_text">Delete Crime</string>
-    <string name="crime_delete_mdg">crime deleted</string>
+    <string name="crime_delete_msg">crime deleted</string>
     <string name="crime_report">%1$s!
         The crime was discovered on %2$s. %3$s, and %4$s
     </string>
