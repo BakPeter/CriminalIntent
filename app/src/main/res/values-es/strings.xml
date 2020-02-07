@@ -9,7 +9,7 @@
     <string name="new_crime">Crimen Nuevo</string>
     <string name="show_subtitle">Mostrar Subtítulos</string>
     <string name="hide_subtitle">Esconder Subtítulos</string>
-    <string name="subtitle_format">%1$s crímenes</string>
+    <string name="subtitle_format">%1$d crímenes</string>
     <string name="crime_suspect_text">Elegir Sospechoso</string>
     <string name="crime_report_text">Enviar el Informe del Crimen</string>
     <string name="crime_report">%1$s!
